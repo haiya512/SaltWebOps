@@ -91,7 +91,8 @@
    python manage.py crontab add              添加计划任务用于生成'/tmp/salt_dashboard.tmp' 文件
 
 
-saltshaker 环境搭建 CentOS6.X
+
+CentOS6.X 环境搭建 saltshaker 
 
 1、安装saltstack   版本 salt 2015.5.3 (Lithium)
 
