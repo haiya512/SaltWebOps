@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf-8
+# coding:utf-8
 import urllib2, urllib
 from django.conf import settings
 from nodegroups import *
@@ -13,14 +13,17 @@ except ImportError:
 class SaltAPI(object):
     __token_id = ''
 
-#初始化API接口
+# 初始化API接口
     def __init__(self):
         # type: () -> object获取Setting配置文件
         self.__url = settings.SALT_API_URL
         self.__user = settings.SALT_API_USER
         self.__password = settings.SALT_API_PASSWD
         ''' user login and get token id '''
-        params = {'eauth': 'pam', 'username': self.__user, 'password': self.__password}
+        params = {'eauth': 'pam',
+                  'username': self.__user,
+                  'password': self.__password
+                  }
         encode = urllib.urlencode(params)
         obj = urllib.unquote(encode)
         content = self.postRequest(obj, prefix='/login')
@@ -29,7 +32,7 @@ class SaltAPI(object):
         except KeyError:
             raise KeyError
 
-#定义Post请求参数
+# 定义Post请求参数
     def postRequest(self, obj, prefix='/'):
         url = self.__url + prefix
         headers = {'X-Auth-Token': self.__token_id}
@@ -38,7 +41,7 @@ class SaltAPI(object):
         content = json.loads(opener.read())
         return content
 
-#定义输出INFO信息
+# 定义输出INFO信息
     def postRequest1(self, obj, prefix='/'):
         url = self.__url + prefix
         headers = {'X-Auth-Token': self.__token_id}
@@ -97,10 +100,15 @@ class SaltAPI(object):
         ret = content['return'][0][tgt]
         return ret
 
-#定义CMD命令函数
+# 定义CMD命令函数
     def shell_remote_execution(self, tgt, arg):
         ''' Shell command execution with parameters '''
-        params = {'client': 'local', 'tgt': tgt, 'fun': 'cmd.run', 'arg': arg, 'expr_form': 'list'}
+        params = {'client': 'local',
+                  'tgt': tgt,
+                  'fun': 'cmd.run',
+                  'arg': arg,
+                  'expr_form': 'list'
+                  }
         obj = urllib.urlencode(params)
         content = self.postRequest(obj)
         ret = content['return'][0]
